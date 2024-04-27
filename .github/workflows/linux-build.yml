@@ -22,7 +22,7 @@ jobs:
     - uses: actions/checkout@v4
 
     - name: Install dependencies
-      run: sudo apt-get install -y libcurl4-openssl-dev zlib1g-dev libpng-dev libogg-dev libvorbis-dev libvpx-dev libyuv-dev libsdl2-dev
+      run: sudo apt-get install -y libcurl4-openssl-dev zlib1g-dev libpng-dev libogg-dev libvorbis-dev libvpx-dev libyuv-dev libsdl2-dev ninja-build
 
     - name: Configure CMake
       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
