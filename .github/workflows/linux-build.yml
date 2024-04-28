@@ -2,20 +2,12 @@ name: Build portable Linux executable
 
 on:
   workflow_dispatch:
-#  push:
-#    branches: [ $default-branch ]
-#  pull_request:
-#    branches: [ $default-branch ]
 
 env:
-  # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
   BUILD_TYPE: Release
 
 jobs:
   build:
-    # The CMake configure and build commands are platform agnostic and should work equally well on Windows or Mac.
-    # You can convert this to a matrix build if you need cross-platform coverage.
-    # See: https://docs.github.com/en/free-pro-team@latest/actions/learn-github-actions/managing-complex-workflows#using-a-build-matrix
     runs-on: ubuntu-latest
 
     steps:
@@ -25,19 +17,27 @@ jobs:
       run: sudo apt-get install -y libcurl4-openssl-dev zlib1g-dev libpng-dev libogg-dev libvorbis-dev libvpx-dev libyuv-dev libsdl2-dev ninja-build
 
     - name: Configure CMake
-      # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
-      # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
       run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
 
     - name: Configure Ninja Preset
       run: cmake --preset ninja-release
 
-    - name: Build
-      # Build your program with the given configuration
+    - name: Build Executable
       run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}} --preset ninja-release
 
-    - name: Test
-      working-directory: ${{github.workspace}}/build
-      # Execute tests defined by the CMake configuration.
-      # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
-      run: ctest -C ${{env.BUILD_TYPE}}
+#    - name: Download AppImage Builder
+#      run: echo "Will figure this out later."
+      
+    - name: Build AppImage
+#      working-directory: ${{github.workspace}}/build
+      run: appimage-builder.AppImage --recipe AppImageBuilder.yml
+
+    - name: Export File
+    - uses: actions/upload-artifact@v4
+      with:
+        name: Ring Racers.AppImage
+        path: Ring Racers-latest-x86_64.AppImage
+        if-no-files-found: error
+        retention-days: 1
+        compression-level: 6
+        overwrite: true
