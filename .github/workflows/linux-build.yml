@@ -25,12 +25,12 @@ jobs:
     - name: Build Executable
       run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}} --preset ninja-release
 
-#    - name: Download AppImage Builder
-#      run: echo "Will figure this out later."
+    - name: Download AppImage Builder
+      run: wget -O appimage-builder-x86_64.AppImage https://github.com/AppImageCrafters/appimage-builder/releases/download/v1.1.0/appimage-builder-1.1.0-x86_64.AppImage && chmod +x appimage-builder-x86_64.AppImage
       
     - name: Build AppImage
 #      working-directory: ${{github.workspace}}/build
-      run: appimage-builder.AppImage --recipe AppImageBuilder.yml
+      run: appimage-builder-x86_64.AppImage --recipe AppImageBuilder.yml
 
     - name: Export File
     - uses: actions/upload-artifact@v4
