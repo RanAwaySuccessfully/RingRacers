@@ -41,5 +41,5 @@ jobs:
         path: Ring Racers-latest-x86_64.AppImage
         if-no-files-found: error
         retention-days: 1
-        compression-level: 6
+        compression-level: 1
         overwrite: true
