@@ -7,21 +7,17 @@ env:
   BUILD_TYPE: Release
 
 jobs:
-  download:
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Download AppImage Builder
-      run: wget -O appimage-builder-x86_64.AppImage https://github.com/AppImageCrafters/appimage-builder/releases/download/v1.1.0/appimage-builder-1.1.0-x86_64.AppImage
-
-    - name: Make AppImage Builder Executable
-      run: chmod +x appimage-builder-x86_64.AppImage
-
   build:
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v4
+    
+    - name: Download AppImage Builder
+      run: wget -O appimage-builder-x86_64.AppImage https://github.com/AppImageCrafters/appimage-builder/releases/download/v1.1.0/appimage-builder-1.1.0-x86_64.AppImage
+
+    - name: Make AppImage Builder Executable
+      run: chmod +x appimage-builder-x86_64.AppImage
 
     - name: Install dependencies
       run: sudo apt-get install -y libfuse2 libcurl4-openssl-dev zlib1g-dev libpng-dev libogg-dev libvorbis-dev libvpx-dev libyuv-dev libsdl2-dev ninja-build
@@ -35,11 +31,6 @@ jobs:
     - name: Build Executable
       run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}} --preset ninja-release
 
-  build-appimage:
-    runs-on: ubuntu-latest
-    needs: [build, download]
-
-    steps:
     - name: Build AppImage
       run: ./appimage-builder-x86_64.AppImage --recipe AppImageBuilder.yml
 
