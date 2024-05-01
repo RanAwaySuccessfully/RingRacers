@@ -63,6 +63,6 @@ AppImage:
   arch: x86_64
   update-information: guess
 script: |
-    rm -r ./AppDir/*
+    rm -rf ./AppDir/*
     mkdir -p ./AppDir/usr/games/
     cp ./build/ninja-release/bin/ringracers ./AppDir/usr/games/
