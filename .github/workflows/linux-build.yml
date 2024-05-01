@@ -33,7 +33,7 @@ jobs:
       run: appimage-builder-x86_64.AppImage --recipe AppImageBuilder.yml
 
     - name: Export File
-    - uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v4
       with:
         name: Ring Racers.AppImage
         path: Ring Racers-latest-x86_64.AppImage
