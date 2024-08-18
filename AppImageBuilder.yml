@@ -11,30 +11,23 @@ AppDir:
     exec_args: $@
   apt:
     arch:
-    - amd64
+    - arm64
     allow_unauthenticated: true
     sources:
-    - sourceline: 'deb http://packages.linuxmint.com virginia main upstream import
-        backport #id:linuxmint_main'
-    - sourceline: deb http://archive.ubuntu.com/ubuntu jammy main restricted universe
-        multiverse
-    - sourceline: deb http://archive.ubuntu.com/ubuntu jammy-updates main restricted
-        universe multiverse
-    - sourceline: deb http://archive.ubuntu.com/ubuntu jammy-backports main restricted
-        universe multiverse
-    - sourceline: deb http://security.ubuntu.com/ubuntu/ jammy-security main restricted
-        universe multiverse
+    - sourceline: deb http://deb.debian.org/debian bookworm main contrib non-free
+    - sourceline: deb http://security.debian.org/debian-security bookworm-security main contrib non-free
+    - sourceline: deb http://deb.debian.org/debian bookworm-updates main contrib non-free
     include:
-    - libc6:amd64
-    - libcurl4-openssl-dev:amd64
-    - zlib1g-dev:amd64
-    - libpng-dev:amd64
-    - libogg-dev:amd64
-    - libvorbis-dev:amd64
-    - libvpx-dev:amd64
-    - libyuv-dev:amd64
-    - libsdl2-dev:amd64
-    - ninja-build:amd64
+    - libc6:arm64
+    - libcurl4-openssl-dev:arm64
+    - zlib1g-dev:arm64
+    - libpng-dev:arm64
+    - libogg-dev:arm64
+    - libvorbis-dev:arm64
+    - libvpx-dev:arm64
+    - libyuv-dev:arm64
+    - libsdl2-dev:arm64
+    - ninja-build:arm64
   files:
     include: []
     exclude:
@@ -43,24 +36,8 @@ AppDir:
     - usr/share/doc/*/changelog.*
     - usr/share/doc/*/NEWS.*
     - usr/share/doc/*/TODO.*
-#  test:
-#    fedora-30:
-#      image: appimagecrafters/tests-env:fedora-30
-#      command: ./AppRun
-#    debian-stable:
-#      image: appimagecrafters/tests-env:debian-stable
-#      command: ./AppRun
-#    archlinux-latest:
-#      image: appimagecrafters/tests-env:archlinux-latest
-#      command: ./AppRun
-#    centos-7:
-#      image: appimagecrafters/tests-env:centos-7
-#      command: ./AppRun
-#    ubuntu-xenial:
-#      image: appimagecrafters/tests-env:ubuntu-xenial
-#      command: ./AppRun
 AppImage:
-  arch: x86_64
+  arch: aarch64
   update-information: guess
 script: |
     rm -rf ./AppDir/*

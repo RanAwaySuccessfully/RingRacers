@@ -48,6 +48,14 @@
 				"CMAKE_COLOR_DIAGNOSTICS": "ON"
 			}
 		},
+        {
+			"name": "__arm64",
+			"hidden": true,
+			"cacheVariables": {
+				"CMAKE_TOOLCHAIN_FILE": "aarch64.cmake",
+                "CMAKE_BUILD_WITH_INSTALL_RPATH": true
+			}
+		},
 		{
 			"name": "__vcpkg-toolchain",
 			"hidden": true,
@@ -114,6 +122,12 @@
 			"hidden": false,
 			"binaryDir": "build/${presetName}",
 			"inherits": ["__release", "__ninja"]
+		},
+        {
+			"name": "ninja-release-arm64",
+			"hidden": false,
+			"binaryDir": "build/${presetName}",
+			"inherits": ["__release", "__ninja", "__arm64"]
 		},
 		{
 			"name": "ninja-testers",
@@ -198,6 +212,10 @@
 		{
 			"name": "ninja-release",
 			"configurePreset": "ninja-release"
+		},
+        {
+			"name": "ninja-release-arm64",
+			"configurePreset": "ninja-release-arm64"
 		},
 		{
 			"name": "ninja-x86_mingw_static_vcpkg-debug",
