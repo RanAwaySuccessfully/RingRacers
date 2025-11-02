@@ -3,9 +3,6 @@ name: Build portable Linux executable
 on:
   workflow_dispatch:
 
-env:
-  BUILD_TYPE: Release
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -13,26 +10,31 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     
-    - name: Download AppImage Builder
-      run: wget -O appimage-builder-x86_64.AppImage https://github.com/AppImageCrafters/appimage-builder/releases/download/v1.1.0/appimage-builder-1.1.0-x86_64.AppImage
-
-    - name: Make AppImage Builder Executable
-      run: chmod +x appimage-builder-x86_64.AppImage
+    - name: Download Linux Deploy
+      run: |
+        wget -O linuxdeploy-x86_64.AppImage https://github.com/linuxdeploy/linuxdeploy/releases/download/1-alpha-20250213-2/linuxdeploy-x86_64.AppImage
+        chmod +x linuxdeploy-x86_64.AppImage
 
     - name: Install dependencies
       run: sudo apt-get install -y libfuse2 libcurl4-openssl-dev zlib1g-dev libpng-dev libogg-dev libvorbis-dev libopus-dev libvpx-dev libyuv-dev libsdl2-dev ninja-build
 
     - name: Configure CMake
-      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
-
-    - name: Configure Ninja Preset
       run: cmake --preset ninja-release
 
     - name: Build Executable
-      run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}} --preset ninja-release
+      run: cmake --build --preset ninja-release
+
+#    - name: Install Executable to AppDir
+#      run: cmake --install build/ninja-release --prefix ./AppDir/usr/
 
     - name: Build AppImage
-      run: ./appimage-builder-x86_64.AppImage --recipe AppImageBuilder.yml
+      run: |
+        mv srb2.png org.kartkrew.RingRacers.png
+        ./linuxdeploy-x86_64.AppImage \
+          --appdir AppDir \
+          --icon-file org.kartkrew.RingRacers.png \
+          --desktop-file .github/workflows/RingRacers.desktop \
+          --output appimage
 
     - name: Export File
       uses: actions/upload-artifact@v4
