@@ -9,11 +9,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    
-    - name: Download Linux Deploy
-      run: |
-        wget -O linuxdeploy-x86_64.AppImage https://github.com/linuxdeploy/linuxdeploy/releases/download/1-alpha-20250213-2/linuxdeploy-x86_64.AppImage
-        chmod +x linuxdeploy-x86_64.AppImage
 
     - name: Install dependencies
       run: sudo apt-get install -y libfuse2 libcurl4-openssl-dev zlib1g-dev libpng-dev libogg-dev libvorbis-dev libopus-dev libvpx-dev libyuv-dev libsdl2-dev ninja-build
@@ -26,6 +21,11 @@ jobs:
 
 #    - name: Install Executable to AppDir
 #      run: cmake --install build/ninja-release --prefix ./AppDir/usr/
+
+    - name: Download Linux Deploy
+      run: |
+        wget -O linuxdeploy-x86_64.AppImage https://github.com/linuxdeploy/linuxdeploy/releases/download/1-alpha-20250213-2/linuxdeploy-x86_64.AppImage
+        chmod +x linuxdeploy-x86_64.AppImage
 
     - name: Build AppImage
       run: |
